@@ -26,7 +26,7 @@ class LineAnalyzer
   def calculate_word_frequency(content)
     histogram = Hash.new(0)
     @highest_wf_count = 0
-    @highest_wf_words = Array.new
+    @highest_wf_words = []
     content.split.each do |word|
       histogram[word.downcase] +=1
       current = histogram[word.downcase]
@@ -76,6 +76,6 @@ class Solution
   #* print the values of objects in highest_count_words_across_lines in the specified format
 end
 
-line = "a a bb b c b ddd"
+line = "a a bb b c b ddd b a"
 line_analyzer = LineAnalyzer.new(line, 2)
 line_analyzer.calculate_word_frequency(line)
