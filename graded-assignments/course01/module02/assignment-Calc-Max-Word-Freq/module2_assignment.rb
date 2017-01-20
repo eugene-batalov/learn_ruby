@@ -5,10 +5,9 @@ class LineAnalyzer
   attr_reader :highest_wf_count, :highest_wf_words, :content, :line_number
 
   def initialize (content, line_number)
-    @highest_wf_count = 1
-    @highest_wf_words = 2
     @content = content
     @line_number = line_number
+    calculate_word_frequency(content)
   end
 
   #Implement the following read-only attributes in the LineAnalyzer class.
@@ -26,11 +25,19 @@ class LineAnalyzer
   #* call the calculate_word_frequency() method.
   def calculate_word_frequency(content)
     histogram = Hash.new(0)
+    @highest_wf_count = 0
+    @highest_wf_words = Array.new
     content.split.each do |word|
       histogram[word.downcase] +=1
+      current = histogram[word.downcase]
+      if current > @highest_wf_count
+        @highest_wf_count = current
+        @highest_wf_words.clear
+        @highest_wf_words.push(word)
+      elsif current == highest_wf_count
+        @highest_wf_words.push(word)
+      end
     end
-    max_index = histogram.max_by { |k, v| v }
-    print max_index
   end
   #Implement the calculate_word_frequency() method to:
   #* calculate the maximum number of times a single word appears within
@@ -69,6 +76,6 @@ class Solution
   #* print the values of objects in highest_count_words_across_lines in the specified format
 end
 
-line = "a a bb b c ddd"
+line = "a a bb b c b ddd"
 line_analyzer = LineAnalyzer.new(line, 2)
 line_analyzer.calculate_word_frequency(line)
